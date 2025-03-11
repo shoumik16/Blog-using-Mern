@@ -21,7 +21,7 @@ const New = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      console.log("Post created:", response.data);
+      console.log("created succesfully:", response.data);
       // Handle success (e.g., redirect or show a message)
     } catch (error) {
       console.error("Error creating post:", error);
