@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 const New = () => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
@@ -13,24 +14,25 @@ const New = () => {
     formData.append("summary", summary);
     formData.append("content", content);
     if (file) {
-      formData.append("file", file);
+      formData.append("file", file[0]);
     }
-    const f= async ()=>{
+    console.log(file[0])
+   const f= async ()  =>{
     try {
-      const response = await axios.post("http://localhost:5001/posts", formData, {
+      const response = await axios.post("http://localhost:5001/user/posts", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
-      console.log("created succesfully:", response.data);
-      // Handle success (e.g., redirect or show a message)
+       console.log("created succesfully:", response.data);
     } catch (error) {
       console.error("Error creating post:", error);
      
    
   }
 }
+console.log("xxxx")
 f()
 }
+  
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gray-100 p-4">

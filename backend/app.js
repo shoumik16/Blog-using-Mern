@@ -6,15 +6,15 @@ const app=express()
 app.use(cookieParser());
 app.use(
     cors({
-      
-      origin: "http://localhost:5175", // Replace with your frontend URL
+     origin: "http://localhost:5173", // Replace with your frontend URL
       credentials: true,
        // Allow cookies and authentication headers
     })
   );
   
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }));
 
+app.use(express.urlencoded({ extended: true }));
+app.use("/public", express.static("public"));
 app.use("/user",userRoute)
 export default app
