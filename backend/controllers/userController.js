@@ -1,5 +1,6 @@
 import  asyncHandler from "../utils/asyncHandler.js";
 import Users from '../models/Users.js'
+import Posts from '../models/Posts.js'
 import CustomError from '../utils/apierror.js'
 import ApiResponse from '../utils/ApiResponse.js'
 import cookieParser from "cookie-parser";
@@ -83,4 +84,31 @@ const logout=asyncHandler(async(req,res)=>{
     res.cookie("accessToken",'').json('okk')
     console.log("xxx")
 })
-export {registerUser,loginUser,profile,logout}
+
+const newpost=asyncHandler(async(req,res)=>{
+    const {  title, summary ,content} = req.body
+    const filePath = req.file ? `/public/temp/${req.file.filename}` : "";
+    console.log(filePath)
+    const post =await Posts.create({
+        title,
+        summary,
+       content,
+       filePath
+        
+    })
+    if (!post) {
+        throw new CustomError("Failed to create post", 500);
+    }
+res.status(201).json({
+        message: "Post created successfully",
+        success: true,
+        post,
+    });
+
+
+   
+    
+})
+
+
+export {registerUser,loginUser,profile,logout,newpost}
