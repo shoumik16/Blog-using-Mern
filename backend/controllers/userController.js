@@ -88,12 +88,18 @@ const logout=asyncHandler(async(req,res)=>{
 const newpost=asyncHandler(async(req,res)=>{
     const {  title, summary ,content} = req.body
     const filePath = req.file ? `/public/temp/${req.file.filename}` : "";
-    console.log(filePath)
-    const post =await Posts.create({
+    const token=req.cookies.accessToken||req.header("Authorization")?.replace("Bearer ","")
+   console.log("why")
+   const SECRET_KEY = "your_secret_key";
+   try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+      console.log(decoded._id) 
+      const post =await Posts.create({
         title,
         summary,
        content,
-       filePath
+       filePath,
+       author:decoded._id
         
     })
     if (!post) {
@@ -104,11 +110,17 @@ res.status(201).json({
         success: true,
         post,
     });
-
-
+   
+} catch (err) {
+    console.error("Invalid or expired token:", err.message);
+}
+   
+  
    
     
 })
 
-
-export {registerUser,loginUser,profile,logout,newpost}
+const setpost=asyncHandler(async(req,res)=>{
+    res.json(await Posts.find().populate('author',['email']))
+})
+export {registerUser,loginUser,profile,logout,newpost,setpost}

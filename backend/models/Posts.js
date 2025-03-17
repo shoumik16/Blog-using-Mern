@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
   },
   filePath:{
     type:String
-  }
+  },
+    author:{
+      type:Schema.Types.ObjectId,ref:'Users'
+    }
+  
   
 
 },

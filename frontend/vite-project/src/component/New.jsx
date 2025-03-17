@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { Navigate } from 'react-router-dom';
 const New = () => {
   const [title, setTitle] = useState('');
   const [summary, setSummary] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
-
+  const[direct,setDirect]=useState(false)
   function createNewPost(ev) {
     ev.preventDefault();
     const formData = new FormData();
@@ -16,23 +16,29 @@ const New = () => {
     if (file) {
       formData.append("file", file[0]);
     }
-    console.log(file[0])
+
    const f= async ()  =>{
     try {
       const response = await axios.post("http://localhost:5001/user/posts", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+        headers: { "Content-Type": "multipart/form-data"},
+        withCredentials:true
+        });
        console.log("created succesfully:", response.data);
+      setDirect(true)
+      console.log(direct)
     } catch (error) {
       console.error("Error creating post:", error);
-     
-   
-  }
+    }
+ 
+
 }
 console.log("xxxx")
 f()
 }
-  
+if(direct)
+  {
+    return <Navigate to={'/'}/>
+  }
 
   return (
     <div className="relative flex justify-center items-center min-h-screen bg-gray-100 p-4">

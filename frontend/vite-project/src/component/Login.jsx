@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useContext } from "react";
+import { useContext ,useEffect} from "react";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
 import {Navigate} from 'react-router-dom'
@@ -9,6 +9,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const[redirect,setRedirect]=useState(false)
   console.log("asdfarhan")
+  useEffect(()=>{
+    console.log("logginggg")
+  },[])
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await axios.post("http://localhost:5001/user/login", {
@@ -22,8 +25,7 @@ const Login = () => {
     
   )
   if (response.status === 200) {
-      //console.log(response.data)
-          setUser(response.data)
+    setUser(response.data)
     setRedirect(true);
   }
  
